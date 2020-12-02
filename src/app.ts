@@ -31,18 +31,21 @@ app.get("/api/", (req: any, resp: any) => {
   return resp.status(HTTP.OK).json("Hello, World!");
 });
 
-app.get("/api/light/toggle", (req: any, resp: any) => {
-  hueHandler.toggleLight(2);
+app.get("/api/light/:id/toggle", (req: any, resp: any) => {
+  if (!req.params.id) return resp.status(HTTP.BAD_REQUEST).send();
+  hueHandler.toggleLight(+req.params.id);
   return resp.status(HTTP.OK).send();
 });
 
-app.get("/api/light/increase", (req: any, resp: any) => {
-  hueHandler.increaseLightBrightness(2);
+app.get("/api/light/:id/increase", (req: any, resp: any) => {
+  if (!req.params.id) return resp.status(HTTP.BAD_REQUEST).send();
+  hueHandler.increaseLightBrightness(+req.params.id);
   return resp.status(HTTP.OK).send();
 });
 
-app.get("/api/light/decrease", (req: any, resp: any) => {
-  hueHandler.decreaseLightBrightness(2);
+app.get("/api/light/:id/decrease", (req: any, resp: any) => {
+  if (!req.params.id) return resp.status(HTTP.BAD_REQUEST).send();
+  hueHandler.decreaseLightBrightness(+req.params.id);
   return resp.status(HTTP.OK).send();
 });
 
