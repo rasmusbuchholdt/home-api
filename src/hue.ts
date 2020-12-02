@@ -1,3 +1,4 @@
+import { HueLightConfig } from './models/hue/light-config';
 import { normalize } from './utils';
 
 let v3 = require('node-hue-api').v3;
@@ -47,6 +48,16 @@ export class Hue {
 	disableLight(lightId: number) {
 		this.api.lights.setLightState(lightId, new LightState().off());
 	}
+
+	setCustomLightState(lightConfig: HueLightConfig) {
+		if (!lightConfig.enabled) return this.disableLight(lightConfig.id);
+		let normalizedBrightness = Math.round(normalize(lightConfig.brightness, 1, 254));
+		this.api.lights.setLightState(lightConfig.id, new LightState()
+			.on()
+			.hue(lightConfig.hue)
+			.sat(lightConfig.saturation)
+			.brightness(normalizedBrightness)
+		);
 	}
 
 	async increaseLightBrightness(lightId: number) {
