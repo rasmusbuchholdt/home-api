@@ -1,0 +1,7 @@
+{
+  "app_port": 1337,
+  "hue_username": "",
+  "spotify_client_id": "",
+  "spotify_client_secret": "",
+  "spotify_refresh_token": ""
+}
