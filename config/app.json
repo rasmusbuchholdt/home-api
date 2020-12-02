@@ -3,5 +3,16 @@
   "hue_username": "",
   "spotify_client_id": "",
   "spotify_client_secret": "",
-  "spotify_refresh_token": ""
+  "spotify_refresh_token": "",
+  "movie_mode": {
+    "lights": [
+      {
+        "id": 2,
+        "enabled": true,
+        "hue": 65535,
+        "saturation": 126,
+        "brightness": 30
+      }
+    ]
+  }
 }

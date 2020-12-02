@@ -1,4 +1,5 @@
 import { Hue } from './hue';
+import { HueLightConfig } from './models/hue/light-config';
 import { Spotify } from './spotify';
 
 let cors = require("cors");
@@ -29,6 +30,14 @@ app.set("port", (config.app_port));
 
 app.get("/api/", (req: any, resp: any) => {
   return resp.status(HTTP.OK).json("Hello, World!");
+});
+
+app.get("/api/moviemode", (req: any, resp: any) => {
+  config.movie_mode.lights.forEach((lightConfig: HueLightConfig) => {
+    hueHandler.setCustomLightState(lightConfig);
+  });
+  spotifyHandler.pause();
+  return resp.status(HTTP.OK).send();
 });
 
 app.get("/api/light/:id/toggle", (req: any, resp: any) => {
