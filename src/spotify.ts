@@ -84,7 +84,7 @@ export class Spotify {
 		this.checkAccessToken();
 	}
 
-	private resume() {
+	public resume() {
 		let options: {} = {
 			method: "PUT",
 			uri: "https://api.spotify.com/v1/me/player/play",
@@ -96,7 +96,7 @@ export class Spotify {
 		this.checkAccessToken();
 	}
 
-	private pause() {
+	public pause() {
 		let options: {} = {
 			method: "PUT",
 			uri: "https://api.spotify.com/v1/me/player/pause",
