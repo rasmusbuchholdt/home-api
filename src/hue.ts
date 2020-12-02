@@ -39,6 +39,13 @@ export class Hue {
 		let light = await this.api.lights.getLight(lightId);
 		// Set light state based on if it's currently on or off
 		this.api.lights.setLightState(lightId, light._data.state.on ? new LightState().off() : new LightState().on());
+	enableLight(lightId: number) {
+		this.api.lights.setLightState(lightId, new LightState().on());
+	}
+
+	disableLight(lightId: number) {
+		this.api.lights.setLightState(lightId, new LightState().off());
+	}
 	}
 
 	async increaseLightBrightness(lightId: number) {
