@@ -2,6 +2,7 @@ import { Buffer } from 'buffer';
 
 import { SpotifyPlayback } from './models/spotify/playback';
 import { SpotifyTokenReponse } from './models/spotify/token-response';
+import { clamp } from './utils';
 
 let request = require('request-promise');
 let querystring = require('querystring');
@@ -156,24 +157,11 @@ export class Spotify {
 		});
 	}
 
-	volumeUp(amount: number = 10): void {
+	adjustVolume(amount: number): void {
 		this.getPlayback().then(playback => {
 			let options: {} = {
 				method: "PUT",
-				uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${playback.device.volume_percent + amount}`,
-				headers: {
-					Authorization: ` Bearer ${this.accessToken}`
-				}
-			};
-			request(options);
-		});
-	}
-
-	volumeDown(amount: number = 10): void {
-		this.getPlayback().then(playback => {
-			let options: {} = {
-				method: "PUT",
-				uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${playback.device.volume_percent - amount}`,
+				uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${clamp(playback.device.volume_percent + amount, 1, 100)}`,
 				headers: {
 					Authorization: ` Bearer ${this.accessToken}`
 				}

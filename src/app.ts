@@ -69,13 +69,8 @@ app.get("/api/spotify/previous", (req: any, resp: any) => {
   return resp.status(HTTP.OK).send();
 });
 
-app.get("/api/spotify/volume/increase/:amount", (req: any, resp: any) => {
-  spotifyHandler.volumeUp(req.params.id.amount);
-  return resp.status(HTTP.OK).send();
-});
-
-app.get("/api/spotify/volume/decrease/:amount", (req: any, resp: any) => {
-  spotifyHandler.volumeDown(req.params.id.amount);
+app.get("/api/spotify/volume/:amount", (req: any, resp: any) => {
+  spotifyHandler.adjustVolume(req.params.amount);
   return resp.status(HTTP.OK).send();
 });
 
