@@ -58,23 +58,14 @@ export class Hue {
 		);
 	}
 
-	async increaseLightBrightness(lightId: number, amount: number = 20) {
-		let light = await this.api.lights.getLight(lightId);
-		// Get current brightness (1-254) and normalize this value
-		let normalizedBrightness = Math.round(normalize(light._data.state.bri, 1, 254));
-		this.api.lights.setLightState(lightId, new LightState()
-			.on()
-			.brightness(normalizedBrightness + amount > 100 ? 100 : normalizedBrightness + amount)
-		);
-	}
-
-	async decreaseLightBrightness(lightId: number, amount: number = 20) {
-		let light = await this.api.lights.getLight(lightId);
-		// Get current brightness (1-254) and normalize this value
-		let normalizedBrightness = Math.round(normalize(light._data.state.bri, 1, 254));
-		this.api.lights.setLightState(lightId, new LightState()
-			.on()
-			.brightness(normalizedBrightness - amount < 0 ? 1 : normalizedBrightness - amount)
-		);
+	adjustLightBrightness(lightId: number, amount: number) {
+		this.api.lights.getLight(lightId).then((light: any) => {
+			// Get current brightness (1-254) and normalize this value
+			let normalizedBrightness = Math.round(normalize(light._data.state.bri, 1, 254));
+			this.api.lights.setLightState(lightId, new LightState()
+				.on()
+				.brightness(normalizedBrightness + amount > 100 ? 100 : normalizedBrightness + amount)
+			);
+		});
 	}
 }	
