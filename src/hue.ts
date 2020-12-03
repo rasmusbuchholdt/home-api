@@ -1,5 +1,5 @@
 import { HueLightConfig } from './models/hue/light-config';
-import { normalize } from './utils';
+import { clamp, normalize } from './utils';
 
 let v3 = require('node-hue-api').v3;
 let discovery = v3.discovery;
@@ -68,8 +68,8 @@ export class Hue {
 			let normalizedBrightness = Math.round(normalize(light._data.state.bri, 1, 254));
 			this.api.lights.setLightState(lightId, new LightState()
 				.on()
-				.brightness(normalizedBrightness + amount > 100 ? 100 : normalizedBrightness + amount)
+				.brightness(clamp(normalizedBrightness + amount, 1, 100))
 			);
 		});
 	}
-}	
+}
