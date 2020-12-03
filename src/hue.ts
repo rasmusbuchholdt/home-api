@@ -10,16 +10,19 @@ let config = require("../config/app.json");
 export class Hue {
 
 	private username: string = "";
+	private bridgeIp: string = "";
 	private api: any;
 
 	constructor() {
 		this.username = config.hue_username;
-		this.getApiConnection();
+		this.getBridgeIp().then(ip => {
+			this.bridgeIp = ip;
+			this.getApiConnection();
+		});
 	};
 
 	private async getApiConnection(): Promise<any> {
-		let ipAddress = await this.getBridgeIp();
-		v3.api.createLocal(ipAddress).connect(this.username).then((api: any) => {
+		v3.api.createLocal(this.bridgeIp).connect(this.username).then((api: any) => {
 			this.api = api;
 		});
 	}
