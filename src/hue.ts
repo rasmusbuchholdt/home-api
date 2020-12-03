@@ -21,7 +21,7 @@ export class Hue {
 		});
 	};
 
-	private async getApiConnection(): Promise<any> {
+	private getApiConnection(): void {
 		v3.api.createLocal(this.bridgeIp).connect(this.username).then((api: any) => {
 			this.api = api;
 		});
@@ -37,20 +37,21 @@ export class Hue {
 		});
 	}
 
-	async toggleLight(lightId: number) {
-		let light = await this.api.lights.getLight(lightId);
-		light._data.state.on ? this.disableLight(lightId) : this.enableLight(lightId);
+	toggleLight(lightId: number): void {
+		this.api.lights.getLight(lightId).then((light: any) => {
+			light._data.state.on ? this.disableLight(lightId) : this.enableLight(lightId);
+		});
 	}
 
-	enableLight(lightId: number) {
+	enableLight(lightId: number): void {
 		this.api.lights.setLightState(lightId, new LightState().on());
 	}
 
-	disableLight(lightId: number) {
+	disableLight(lightId: number): void {
 		this.api.lights.setLightState(lightId, new LightState().off());
 	}
 
-	setCustomLightState(lightConfig: HueLightConfig) {
+	setCustomLightState(lightConfig: HueLightConfig): void {
 		if (!lightConfig.enabled) return this.disableLight(lightConfig.id);
 		let normalizedBrightness = Math.round(normalize(lightConfig.brightness, 1, 254));
 		this.api.lights.setLightState(lightConfig.id, new LightState()

@@ -21,12 +21,12 @@ export class Spotify {
 		}
 	};
 
-	private handleNewAuthentication(token: SpotifyTokenReponse) {
+	private handleNewAuthentication(token: SpotifyTokenReponse): void {
 		this.accessToken = token.access_token;
 		this.refreshToken = token.refresh_token;
 	}
 
-	private refreshAccessToken() {
+	private refreshAccessToken(): void {
 		this.getAccessToken().then(token => {
 			this.accessToken = token;
 			setTimeout(() => {
@@ -35,7 +35,7 @@ export class Spotify {
 		})
 	}
 
-	public getAuthURL(stateSecret: string) {
+	getAuthURL(stateSecret: string): string {
 		return "https://accounts.spotify.com/authorize?" +
 			querystring.stringify({
 				response_type: "code",
@@ -46,7 +46,7 @@ export class Spotify {
 			});
 	}
 
-	public getToken(code: string): Promise<SpotifyTokenReponse> {
+	getToken(code: string): Promise<SpotifyTokenReponse> {
 		let options = {
 			method: "POST",
 			url: "https://accounts.spotify.com/api/token",
@@ -85,13 +85,13 @@ export class Spotify {
 		});
 	}
 
-	public togglePlayPause() {
+	togglePlayPause(): void {
 		this.getPlayback().then(playback => {
 			playback.is_playing ? this.pause() : this.resume();
 		});
 	}
 
-	public previous() {
+	previous(): void {
 		let options: {} = {
 			method: "POST",
 			uri: "https://api.spotify.com/v1/me/player/previous",
@@ -102,7 +102,7 @@ export class Spotify {
 		request(options);
 	}
 
-	public next() {
+	next(): void {
 		let options: {} = {
 			method: "POST",
 			uri: "https://api.spotify.com/v1/me/player/next",
@@ -113,7 +113,7 @@ export class Spotify {
 		request(options);
 	}
 
-	public resume() {
+	resume(): void {
 		let options: {} = {
 			method: "PUT",
 			uri: "https://api.spotify.com/v1/me/player/play",
@@ -124,7 +124,7 @@ export class Spotify {
 		request(options);
 	}
 
-	public pause() {
+	pause(): void {
 		let options: {} = {
 			method: "PUT",
 			uri: "https://api.spotify.com/v1/me/player/pause",
@@ -135,7 +135,7 @@ export class Spotify {
 		request(options);
 	}
 
-	public getPlayback(): Promise<SpotifyPlayback> {
+	getPlayback(): Promise<SpotifyPlayback> {
 		let options: {} = {
 			method: "GET",
 			uri: "https://api.spotify.com/v1/me/player",
@@ -153,7 +153,7 @@ export class Spotify {
 		});
 	}
 
-	public volumeUp(amount: number = 10) {
+	volumeUp(amount: number = 10): void {
 		this.getPlayback().then(playback => {
 			let options: {} = {
 				method: "PUT",
@@ -166,7 +166,7 @@ export class Spotify {
 		});
 	}
 
-	public volumeDown(amount: number = 10) {
+	volumeDown(amount: number = 10): void {
 		this.getPlayback().then(playback => {
 			let options: {} = {
 				method: "PUT",
