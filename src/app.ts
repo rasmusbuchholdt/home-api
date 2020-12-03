@@ -1,5 +1,4 @@
 import { Hue } from './hue';
-import { HueLightConfig } from './models/hue/light-config';
 import { Spotify } from './spotify';
 import { randomString } from './utils';
 
@@ -20,6 +19,7 @@ let spotifyHandler: Spotify = new Spotify();
 let hueHandler: Hue = new Hue();
 
 let spotifyState: string;
+let movieMode: boolean = false;
 
 app.use((req: any, resp: any, next: any) => {
   resp.header("Access-Control-Allow-Origin", "*");
@@ -35,11 +35,10 @@ app.get("/api/", (req: any, resp: any) => {
   return resp.status(HTTP.OK).json("Hello, World!");
 });
 
-app.get("/api/moviemode", (req: any, resp: any) => {
-  config.movie_mode.lights.forEach((lightConfig: HueLightConfig) => {
-    hueHandler.setCustomLightState(lightConfig);
-  });
-  spotifyHandler.pause();
+app.get("/api/moviemode/toggle", (req: any, resp: any) => {
+  if (!movieMode) spotifyHandler.pause();
+  hueHandler.toggleMovieMode(movieMode);
+  movieMode = !movieMode;
   return resp.status(HTTP.OK).send();
 });
 

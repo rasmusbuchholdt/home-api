@@ -16,5 +16,11 @@
         "brightness": 30
       }
     ]
+  },
+  "light_default_values": {
+    "enabled": true,
+    "hue": 0,
+    "saturation": 0,
+    "brightness": 80
   }
 }
