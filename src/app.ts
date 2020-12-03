@@ -73,6 +73,16 @@ app.get("/api/spotify/previous", (req: any, resp: any) => {
   return resp.status(HTTP.OK).send();
 });
 
+app.get("/api/spotify/volume/increase/:amount", (req: any, resp: any) => {
+  spotifyHandler.volumeUp(req.params.id.amount);
+  return resp.status(HTTP.OK).send();
+});
+
+app.get("/api/spotify/volume/decrease/:amount", (req: any, resp: any) => {
+  spotifyHandler.volumeDown(req.params.id.amount);
+  return resp.status(HTTP.OK).send();
+});
+
 app.listen(app.get("port"), () => {
   console.log(`Listening on port ${app.get("port")}`);
 });
