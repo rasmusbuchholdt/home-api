@@ -7,8 +7,6 @@ let LightState = v3.lightStates.LightState;
 
 let config = require("../config/app.json");
 
-const BRIGTHNESS_STEP_SIZE = 20;
-
 export class Hue {
 
 	private username: string = "";
@@ -60,23 +58,23 @@ export class Hue {
 		);
 	}
 
-	async increaseLightBrightness(lightId: number) {
+	async increaseLightBrightness(lightId: number, amount: number = 20) {
 		let light = await this.api.lights.getLight(lightId);
 		// Get current brightness (1-254) and normalize this value
 		let normalizedBrightness = Math.round(normalize(light._data.state.bri, 1, 254));
 		this.api.lights.setLightState(lightId, new LightState()
 			.on()
-			.brightness(normalizedBrightness + BRIGTHNESS_STEP_SIZE > 100 ? 100 : normalizedBrightness + BRIGTHNESS_STEP_SIZE)
+			.brightness(normalizedBrightness + amount > 100 ? 100 : normalizedBrightness + amount)
 		);
 	}
 
-	async decreaseLightBrightness(lightId: number) {
+	async decreaseLightBrightness(lightId: number, amount: number = 20) {
 		let light = await this.api.lights.getLight(lightId);
 		// Get current brightness (1-254) and normalize this value
 		let normalizedBrightness = Math.round(normalize(light._data.state.bri, 1, 254));
 		this.api.lights.setLightState(lightId, new LightState()
 			.on()
-			.brightness(normalizedBrightness - BRIGTHNESS_STEP_SIZE < 0 ? 1 : normalizedBrightness - BRIGTHNESS_STEP_SIZE)
+			.brightness(normalizedBrightness - amount < 0 ? 1 : normalizedBrightness - amount)
 		);
 	}
 }	
