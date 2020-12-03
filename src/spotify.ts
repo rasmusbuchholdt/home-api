@@ -2,7 +2,8 @@ import { Buffer } from 'buffer';
 
 import { SpotifyPlayback } from './models/spotify/playback';
 import { SpotifyTokenReponse } from './models/spotify/token-response';
-import { clamp } from './utils';
+import { SonosHandler } from './sonos';
+import { clamp, isSonos } from './utils';
 
 let request = require('request-promise');
 let querystring = require('querystring');
@@ -12,6 +13,7 @@ export class Spotify {
 
 	private accessToken = "";
 	private refreshToken = "";
+	private sonosHandler = new SonosHandler();
 
 	constructor(token?: SpotifyTokenReponse) {
 		if (token) {
@@ -91,7 +93,11 @@ export class Spotify {
 
 	togglePlayPause(): void {
 		this.getPlayback().then(playback => {
-			playback.is_playing ? this.pause() : this.resume();
+			if (isSonos(playback)) {
+				playback.is_playing ? this.sonosHandler.pause() : this.sonosHandler.resume();
+			} else {
+				playback.is_playing ? this.pause() : this.resume();
+			}
 		});
 	}
 

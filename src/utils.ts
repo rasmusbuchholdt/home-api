@@ -1,3 +1,5 @@
+import { SpotifyPlayback } from './models/spotify/playback';
+
 export function normalize(value: number, min: number, max: number): number {
     return (value - min) / (max - min) * 100;
 }
@@ -12,4 +14,8 @@ export function randomString(length: number): string {
     for (let i = 0; i < length; i++)
         result += possible.charAt(Math.floor(Math.random() * possible.length));
     return result;
+}
+
+export function isSonos(playback: SpotifyPlayback): boolean {
+    return playback.device.name.toLocaleLowerCase().includes("sonos");
 }
