@@ -1,6 +1,5 @@
 import { Buffer } from 'buffer';
 
-import { SpotifyAccessToken } from './models/spotify/access-token';
 import { SpotifyPlayback } from './models/spotify/playback';
 import { SpotifyTokenReponse } from './models/spotify/token-response';
 
@@ -10,40 +9,29 @@ let config = require("../config/app.json");
 
 export class Spotify {
 
-	private accessToken: SpotifyAccessToken | undefined;
+	private accessToken: string = "";
 	private refreshToken: string = "";
 
 	constructor(token?: SpotifyTokenReponse) {
-		if (token) this.handleNewAuthentication(token);
-		this.refreshToken = config.spotify_refresh_token;
-		this.refreshAccessToken();
-	};
-
-	private checkAccessToken() {
-		if (this.accessToken && this.accessToken?.expiry <= new Date()) {
-			console.log("Refreshing access token");
+		if (token) {
+			this.handleNewAuthentication(token)
+		} else {
+			this.refreshToken = config.spotify_refresh_token;
 			this.refreshAccessToken();
 		}
-	}
+	};
 
 	private handleNewAuthentication(token: SpotifyTokenReponse) {
-		var expiry = new Date();
-		expiry.setHours(expiry.getHours() + 1);
-		this.accessToken = {
-			token: token.access_token,
-			expiry
-		};
+		this.accessToken = token.access_token;
 		this.refreshToken = token.refresh_token;
 	}
 
 	private refreshAccessToken() {
 		this.getAccessToken().then(token => {
-			var expiry = new Date();
-			expiry.setHours(expiry.getHours() + 1);
-			this.accessToken = {
-				token,
-				expiry
-			}
+			this.accessToken = token;
+			setTimeout(() => {
+				this.refreshAccessToken()
+			}, 59 * 1000);
 		})
 	}
 
@@ -101,7 +89,6 @@ export class Spotify {
 		this.getPlayback().then(playback => {
 			playback.is_playing ? this.pause() : this.resume();
 		});
-		this.checkAccessToken();
 	}
 
 	public previous() {
@@ -109,11 +96,10 @@ export class Spotify {
 			method: "POST",
 			uri: "https://api.spotify.com/v1/me/player/previous",
 			headers: {
-				Authorization: ` Bearer ${this.accessToken?.token}`
+				Authorization: ` Bearer ${this.accessToken}`
 			}
 		};
 		request(options);
-		this.checkAccessToken();
 	}
 
 	public next() {
@@ -121,11 +107,10 @@ export class Spotify {
 			method: "POST",
 			uri: "https://api.spotify.com/v1/me/player/next",
 			headers: {
-				Authorization: ` Bearer ${this.accessToken?.token}`
+				Authorization: ` Bearer ${this.accessToken}`
 			}
 		};
 		request(options);
-		this.checkAccessToken();
 	}
 
 	public resume() {
@@ -133,11 +118,10 @@ export class Spotify {
 			method: "PUT",
 			uri: "https://api.spotify.com/v1/me/player/play",
 			headers: {
-				Authorization: ` Bearer ${this.accessToken?.token}`
+				Authorization: ` Bearer ${this.accessToken}`
 			}
 		};
 		request(options);
-		this.checkAccessToken();
 	}
 
 	public pause() {
@@ -145,11 +129,10 @@ export class Spotify {
 			method: "PUT",
 			uri: "https://api.spotify.com/v1/me/player/pause",
 			headers: {
-				Authorization: ` Bearer ${this.accessToken?.token}`
+				Authorization: ` Bearer ${this.accessToken}`
 			}
 		};
 		request(options);
-		this.checkAccessToken();
 	}
 
 	public getPlayback(): Promise<SpotifyPlayback> {
@@ -158,7 +141,7 @@ export class Spotify {
 			uri: "https://api.spotify.com/v1/me/player",
 			json: true,
 			headers: {
-				Authorization: ` Bearer ${this.accessToken?.token}`
+				Authorization: ` Bearer ${this.accessToken}`
 			}
 		};
 
@@ -176,12 +159,11 @@ export class Spotify {
 				method: "PUT",
 				uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${playback.device.volume_percent + amount}`,
 				headers: {
-					Authorization: ` Bearer ${this.accessToken?.token}`
+					Authorization: ` Bearer ${this.accessToken}`
 				}
 			};
 			request(options);
 		});
-		this.checkAccessToken();
 	}
 
 	public volumeDown(amount: number = 10) {
@@ -190,11 +172,10 @@ export class Spotify {
 				method: "PUT",
 				uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${playback.device.volume_percent - amount}`,
 				headers: {
-					Authorization: ` Bearer ${this.accessToken?.token}`
+					Authorization: ` Bearer ${this.accessToken}`
 				}
 			};
 			request(options);
 		});
-		this.checkAccessToken();
 	}
 }
