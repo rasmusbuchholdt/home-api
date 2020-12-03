@@ -10,8 +10,8 @@ let config = require("../config/app.json");
 
 export class Spotify {
 
-	private accessToken: string = "";
-	private refreshToken: string = "";
+	private accessToken = "";
+	private refreshToken = "";
 
 	constructor(token?: SpotifyTokenReponse) {
 		if (token) {

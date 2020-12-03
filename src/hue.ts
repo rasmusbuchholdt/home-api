@@ -9,8 +9,8 @@ let config = require("../config/app.json");
 
 export class Hue {
 
-	private username: string = "";
-	private bridgeIp: string = "";
+	private username = "";
+	private bridgeIp = "";
 	private api: any;
 
 	constructor() {
