@@ -47,13 +47,13 @@ app.get("/api/light/:id/toggle", (req: any, resp: any) => {
 });
 
 app.get("/api/light/:id/increase/:amount", (req: any, resp: any) => {
-  if (!req.params.id || !req.params.amount) return resp.status(HTTP.BAD_REQUEST).send();
+  if (!req.params.id) return resp.status(HTTP.BAD_REQUEST).send();
   hueHandler.increaseLightBrightness(+req.params.id, +req.params.amount);
   return resp.status(HTTP.OK).send();
 });
 
 app.get("/api/light/:id/decrease/:amount", (req: any, resp: any) => {
-  if (!req.params.id || !req.params.amount) return resp.status(HTTP.BAD_REQUEST).send();
+  if (!req.params.id) return resp.status(HTTP.BAD_REQUEST).send();
   hueHandler.decreaseLightBrightness(+req.params.id, +req.params.amount);
   return resp.status(HTTP.OK).send();
 });
