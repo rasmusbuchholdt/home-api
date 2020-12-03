@@ -3,6 +3,7 @@
   "hue_username": "",
   "spotify_client_id": "",
   "spotify_client_secret": "",
+  "spotify_call_back_uri": "",
   "spotify_refresh_token": "",
   "movie_mode": {
     "lights": [

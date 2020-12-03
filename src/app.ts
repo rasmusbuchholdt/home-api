@@ -1,6 +1,7 @@
 import { Hue } from './hue';
 import { HueLightConfig } from './models/hue/light-config';
 import { Spotify } from './spotify';
+import { randomString } from './utils';
 
 let cors = require("cors");
 let express = require("express");
@@ -17,6 +18,8 @@ app.use(cors());
 
 let spotifyHandler: Spotify = new Spotify();
 let hueHandler: Hue = new Hue();
+
+let spotifyState: string;
 
 app.use((req: any, resp: any, next: any) => {
   resp.header("Access-Control-Allow-Origin", "*");
@@ -81,6 +84,23 @@ app.get("/api/spotify/volume/increase/:amount", (req: any, resp: any) => {
 app.get("/api/spotify/volume/decrease/:amount", (req: any, resp: any) => {
   spotifyHandler.volumeDown(req.params.id.amount);
   return resp.status(HTTP.OK).send();
+});
+
+app.get("/auth/spotify", (req: any, resp: any) => {
+  spotifyState = randomString(16);
+  resp.redirect(spotifyHandler.getAuthURL(spotifyState));
+});
+
+app.get("/auth/spotify/callback", (req: any, resp: any) => {
+  if (req.query.state != spotifyState) return resp.status(HTTP.BAD_REQUEST).send();
+  spotifyHandler.getToken(req.query.code).then(tokenResponse => {
+    spotifyHandler = new Spotify(tokenResponse);
+    resp.redirect("/auth/spotify/success");
+  });
+});
+
+app.get("/auth/spotify/success", (req: any, resp: any) => {
+  return resp.status(HTTP.OK).json("Authentication successful");
 });
 
 app.listen(app.get("port"), () => {

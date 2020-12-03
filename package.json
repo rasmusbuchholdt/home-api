@@ -24,6 +24,7 @@
     "express": "^4.17.1",
     "http-status-codes": "^2.1.2",
     "node-hue-api": "^4.0.9",
+    "querystring": "^0.2.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "spotify-web-api-node": "^5.0.0",
