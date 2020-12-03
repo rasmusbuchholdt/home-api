@@ -24,13 +24,16 @@ export class Spotify {
 	private handleNewAuthentication(token: SpotifyTokenReponse): void {
 		this.accessToken = token.access_token;
 		this.refreshToken = token.refresh_token;
+		setTimeout(() => {
+			this.refreshAccessToken()
+		}, 59 * 1000);
 	}
 
 	private refreshAccessToken(): void {
 		this.getAccessToken().then(token => {
 			this.accessToken = token;
 			setTimeout(() => {
-				this.refreshAccessToken()
+				this.refreshAccessToken();
 			}, 59 * 1000);
 		})
 	}
