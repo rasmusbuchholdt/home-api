@@ -62,7 +62,7 @@ export class Hue {
 		);
 	}
 
-	adjustLightBrightness(lightId: number, amount: number) {
+	adjustLightBrightness(lightId: number, amount: number): void {
 		this.api.lights.getLight(lightId).then((light: any) => {
 			// Get current brightness (1-254) and normalize this value
 			let normalizedBrightness = Math.round(normalize(light._data.state.bri, 1, 254));
