@@ -1,5 +1,5 @@
-import { Hue } from './hue';
-import { Spotify } from './spotify';
+import { HueHandler } from './hue';
+import { SpotifyHandler } from './spotify';
 import { randomString } from './utils';
 
 let cors = require("cors");
@@ -15,11 +15,11 @@ app.use(bodyparser.urlencoded({ extended: true }));
 app.use(compression())
 app.use(cors());
 
-let spotifyHandler: Spotify = new Spotify();
-let hueHandler: Hue = new Hue();
+let spotifyHandler = new SpotifyHandler();
+let hueHandler = new HueHandler();
 
 let spotifyState: string;
-let movieMode: boolean = false;
+let movieMode = false;
 
 app.use((req: any, resp: any, next: any) => {
   resp.header("Access-Control-Allow-Origin", "*");
@@ -82,7 +82,7 @@ app.get("/auth/spotify", (req: any, resp: any) => {
 app.get("/auth/spotify/callback", (req: any, resp: any) => {
   if (req.query.state != spotifyState) return resp.status(HTTP.BAD_REQUEST).send();
   spotifyHandler.getToken(req.query.code).then(tokenResponse => {
-    spotifyHandler = new Spotify(tokenResponse);
+    spotifyHandler = new SpotifyHandler(tokenResponse);
     return resp.redirect(config.spotify_auth_success_uri || "/auth/spotify/success");
   });
 });

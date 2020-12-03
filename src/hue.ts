@@ -7,7 +7,7 @@ let LightState = v3.lightStates.LightState;
 
 let config = require("../config/app.json");
 
-export class Hue {
+export class HueHandler {
 
 	private username = "";
 	private bridgeIp = "";

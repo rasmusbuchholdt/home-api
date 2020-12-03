@@ -9,7 +9,7 @@ let request = require('request-promise');
 let querystring = require('querystring');
 let config = require("../config/app.json");
 
-export class Spotify {
+export class SpotifyHandler {
 
 	private accessToken = "";
 	private refreshToken = "";
