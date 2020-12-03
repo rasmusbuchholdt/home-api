@@ -95,12 +95,12 @@ app.get("/auth/spotify/callback", (req: any, resp: any) => {
   if (req.query.state != spotifyState) return resp.status(HTTP.BAD_REQUEST).send();
   spotifyHandler.getToken(req.query.code).then(tokenResponse => {
     spotifyHandler = new Spotify(tokenResponse);
-    resp.redirect("/auth/spotify/success");
+    return resp.redirect(config.spotify_auth_success_uri || "/auth/spotify/success");
   });
 });
 
 app.get("/auth/spotify/success", (req: any, resp: any) => {
-  return resp.status(HTTP.OK).json("Authentication successful");
+  return resp.status(HTTP.OK).json({ status: "success" });
 });
 
 app.listen(app.get("port"), () => {
