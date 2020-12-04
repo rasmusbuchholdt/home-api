@@ -102,25 +102,37 @@ export class SpotifyHandler {
   }
 
   previous(): void {
-    let options: {} = {
-      method: "POST",
-      uri: "https://api.spotify.com/v1/me/player/previous",
-      headers: {
-        Authorization: ` Bearer ${this.accessToken}`
+    this.getPlayback().then(playback => {
+      if (isSonos(playback)) {
+        this.sonosHandler.previous();
+      } else {
+        let options: {} = {
+          method: "POST",
+          uri: "https://api.spotify.com/v1/me/player/previous",
+          headers: {
+            Authorization: ` Bearer ${this.accessToken}`
+          }
+        };
+        request(options);
       }
-    };
-    request(options);
+    });
   }
 
   next(): void {
-    let options: {} = {
-      method: "POST",
-      uri: "https://api.spotify.com/v1/me/player/next",
-      headers: {
-        Authorization: ` Bearer ${this.accessToken}`
+    this.getPlayback().then(playback => {
+      if (isSonos(playback)) {
+        this.sonosHandler.next();
+      } else {
+        let options: {} = {
+          method: "POST",
+          uri: "https://api.spotify.com/v1/me/player/next",
+          headers: {
+            Authorization: ` Bearer ${this.accessToken}`
+          }
+        };
+        request(options);
       }
-    };
-    request(options);
+    });
   }
 
   resume(): void {

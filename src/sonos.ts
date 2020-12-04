@@ -22,6 +22,14 @@ export class SonosHandler {
     })
   }
 
+  previous(): void {
+    this.sonos.previous();
+  }
+
+  next(): void {
+    this.sonos.next();
+  }
+
   pause(): void {
     this.sonos.pause();
   }
