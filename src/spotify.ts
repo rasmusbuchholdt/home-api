@@ -136,25 +136,37 @@ export class SpotifyHandler {
   }
 
   resume(): void {
-    let options: {} = {
-      method: "PUT",
-      uri: "https://api.spotify.com/v1/me/player/play",
-      headers: {
-        Authorization: ` Bearer ${this.accessToken}`
+    this.getPlayback().then(playback => {
+      if (isSonos(playback)) {
+        this.sonosHandler.resume();
+      } else {
+        let options: {} = {
+          method: "PUT",
+          uri: "https://api.spotify.com/v1/me/player/play",
+          headers: {
+            Authorization: ` Bearer ${this.accessToken}`
+          }
+        };
+        request(options);
       }
-    };
-    request(options);
+    });
   }
 
   pause(): void {
-    let options: {} = {
-      method: "PUT",
-      uri: "https://api.spotify.com/v1/me/player/pause",
-      headers: {
-        Authorization: ` Bearer ${this.accessToken}`
+    this.getPlayback().then(playback => {
+      if (isSonos(playback)) {
+        this.sonosHandler.pause();
+      } else {
+        let options: {} = {
+          method: "PUT",
+          uri: "https://api.spotify.com/v1/me/player/pause",
+          headers: {
+            Authorization: ` Bearer ${this.accessToken}`
+          }
+        };
+        request(options);
       }
-    };
-    request(options);
+    });
   }
 
   getPlayback(): Promise<SpotifyPlayback> {
