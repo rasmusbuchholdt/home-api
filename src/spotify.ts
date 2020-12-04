@@ -177,14 +177,18 @@ export class SpotifyHandler {
 
   adjustVolume(amount: number): void {
     this.getPlayback().then(playback => {
-      let options: {} = {
-        method: "PUT",
-        uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${clamp(playback.device.volume_percent + amount, 1, 100)}`,
-        headers: {
-          Authorization: ` Bearer ${this.accessToken}`
-        }
-      };
-      request(options);
+      if (isSonos(playback)) {
+        this.sonosHandler.adjustVolume(amount);
+      } else {
+        let options: {} = {
+          method: "PUT",
+          uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${clamp(playback.device.volume_percent + amount, 1, 100)}`,
+          headers: {
+            Authorization: ` Bearer ${this.accessToken}`
+          }
+        };
+        request(options);
+      }
     });
   }
 }
