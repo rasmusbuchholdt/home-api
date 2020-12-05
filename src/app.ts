@@ -59,6 +59,13 @@ app.get("/api/spotify/playback", (req: any, resp: any) => {
     return resp.status(HTTP.OK).json(playback);
   });
 });
+
+app.get("/api/spotify/user", (req: any, resp: any) => {
+  spotifyHandler.getUser().then(user => {
+    return resp.status(HTTP.OK).json(user);
+  });
+});
+
 app.get("/api/spotify/toggle", (req: any, resp: any) => {
   spotifyHandler.togglePlayPause();
   return resp.status(HTTP.OK).send();

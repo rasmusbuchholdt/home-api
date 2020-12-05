@@ -2,6 +2,7 @@ import { Buffer } from 'buffer';
 
 import { SpotifyPlayback } from './models/spotify/playback';
 import { SpotifyTokenReponse } from './models/spotify/token-response';
+import { SpotifyUser } from './models/spotify/user';
 import { SonosHandler } from './sonos';
 import { clamp, isSonos } from './utils';
 
@@ -183,6 +184,24 @@ export class SpotifyHandler {
       request(options)
         .then((result: any) => {
           resolve(Object.assign({}, result as SpotifyPlayback));
+        });
+    });
+  }
+
+  getUser(): Promise<SpotifyUser> {
+    let options: {} = {
+      method: "GET",
+      uri: "https://api.spotify.com/v1/me",
+      json: true,
+      headers: {
+        Authorization: ` Bearer ${this.accessToken}`
+      }
+    };
+
+    return new Promise((resolve: any, reject: any) => {
+      request(options)
+        .then((result: any) => {
+          resolve(Object.assign({}, result as SpotifyUser));
         });
     });
   }
