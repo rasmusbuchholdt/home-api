@@ -54,6 +54,11 @@ app.get("/api/light/:id/brightness/:amount", (req: any, resp: any) => {
   return resp.status(HTTP.OK).send();
 });
 
+app.get("/api/spotify/playback", (req: any, resp: any) => {
+  spotifyHandler.getPlayback().then(playback => {
+    return resp.status(HTTP.OK).json(playback);
+  });
+});
 app.get("/api/spotify/toggle", (req: any, resp: any) => {
   spotifyHandler.togglePlayPause();
   return resp.status(HTTP.OK).send();
