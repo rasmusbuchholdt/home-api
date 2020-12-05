@@ -40,8 +40,12 @@ export class SonosHandler {
   }
 
   adjustVolume(amount: number): void {
-    this.sonos.getVolume().then((currentVolume: number) => {      
+    this.sonos.getVolume().then((currentVolume: number) => {
       this.sonos.setVolume(clamp(currentVolume + +amount, 1, 100));
     });
+  }
+
+  setVolume(amount: number): void {
+    this.sonos.setVolume(clamp(+amount, 1, 100));
   }
 }

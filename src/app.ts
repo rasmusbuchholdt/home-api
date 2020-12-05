@@ -81,8 +81,13 @@ app.get("/api/spotify/previous", (req: any, resp: any) => {
   return resp.status(HTTP.OK).send();
 });
 
-app.get("/api/spotify/volume/:amount", (req: any, resp: any) => {
+app.get("/api/spotify/volume/adjust/:amount", (req: any, resp: any) => {
   spotifyHandler.adjustVolume(req.params.amount);
+  return resp.status(HTTP.OK).send();
+});
+
+app.get("/api/spotify/volume/set/:amount", (req: any, resp: any) => {
+  spotifyHandler.setVolume(req.params.amount);
   return resp.status(HTTP.OK).send();
 });
 

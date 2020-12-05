@@ -222,4 +222,21 @@ export class SpotifyHandler {
       }
     });
   }
+
+  setVolume(amount: number): void {
+    this.getPlayback().then(playback => {
+      if (isSonos(playback)) {
+        this.sonosHandler.setVolume(amount);
+      } else {
+        let options: {} = {
+          method: "PUT",
+          uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${clamp(amount, 1, 100)}`,
+          headers: {
+            Authorization: ` Bearer ${this.accessToken}`
+          }
+        };
+        request(options);
+      }
+    });
+  }
 }
