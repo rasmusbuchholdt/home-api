@@ -1,6 +1,7 @@
 import { HueLightConfig } from './models/hue/light-config';
 import { clamp, normalize } from './utils';
 
+let request = require('request-promise');
 let v3 = require('node-hue-api').v3;
 let discovery = v3.discovery;
 let LightState = v3.lightStates.LightState;
@@ -33,6 +34,22 @@ export class HueHandler {
         if (bridges.length === 0) return null;
         // TODO: Maybe add multi bridge support in the future?
         resolve(bridges[0].ipaddress);
+      });
+    });
+  }
+
+  getLights(): Promise<any[]> {
+    return new Promise((resolve: any, reject: any) => {
+      this.api.lights.getAll().then((lights: any) => {
+        resolve(lights.map((e: any) => e._data));
+      });
+    });
+  }
+
+  getLight(lightId: number): Promise<any> {
+    return new Promise((resolve: any, reject: any) => {
+      this.api.lights.getLight(lightId).then((light: any) => {
+        resolve(light._data);
       });
     });
   }

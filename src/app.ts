@@ -42,6 +42,19 @@ app.get("/api/moviemode/toggle", (req: any, resp: any) => {
   return resp.status(HTTP.OK).send();
 });
 
+app.get("/api/lights/", (req: any, resp: any) => {
+  hueHandler.getLights().then(lights => {
+    return resp.status(HTTP.OK).json(lights);
+  });
+});
+
+app.get("/api/light/:id", (req: any, resp: any) => {
+  if (!req.params.id) return resp.status(HTTP.BAD_REQUEST).send();
+  hueHandler.getLight(+req.params.id).then(light => {
+    return resp.status(HTTP.OK).json(light);
+  });
+});
+
 app.get("/api/light/:id/toggle", (req: any, resp: any) => {
   if (!req.params.id) return resp.status(HTTP.BAD_REQUEST).send();
   hueHandler.toggleLight(+req.params.id);
