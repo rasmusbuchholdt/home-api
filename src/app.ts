@@ -1,4 +1,5 @@
 import { HueHandler } from './hue';
+import { PiholeHandler } from './pihole';
 import { SpotifyHandler } from './spotify';
 import { randomString } from './utils';
 
@@ -17,6 +18,7 @@ app.use(cors());
 
 let spotifyHandler = new SpotifyHandler();
 let hueHandler = new HueHandler();
+let piholeHandler = new PiholeHandler();
 
 let spotifyState: string;
 let movieMode = false;
@@ -39,6 +41,17 @@ app.get("/api/moviemode/toggle", (req: any, resp: any) => {
   if (!movieMode) spotifyHandler.pause();
   hueHandler.toggleMovieMode(movieMode);
   movieMode = !movieMode;
+  return resp.status(HTTP.OK).send();
+});
+
+app.get("/api/pihole/", (req: any, resp: any) => {
+  piholeHandler.getSummary().then(summary => {
+    return resp.status(HTTP.OK).json(summary);
+  });
+});
+
+app.get("/api/pihole/toggle", (req: any, resp: any) => {
+  piholeHandler.toggle();
   return resp.status(HTTP.OK).send();
 });
 

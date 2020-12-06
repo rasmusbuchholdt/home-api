@@ -1,6 +1,7 @@
 {
   "app_port": 1337,
   "hue_username": "",
+  "pihole_token": "",
   "spotify_client_id": "",
   "spotify_client_secret": "",
   "spotify_call_back_uri": "",
