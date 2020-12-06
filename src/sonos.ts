@@ -1,4 +1,4 @@
-import { SonosDevice } from './models/sonos/sonos-device';
+import { SonosDevice } from './models/sonos/device';
 import { clamp } from './utils';
 
 let { Sonos } = require('sonos')
