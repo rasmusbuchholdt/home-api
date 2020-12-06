@@ -14,7 +14,7 @@ export class PiholeHandler {
   getSummary(): Promise<PiholeSummary> {
     let options: {} = {
       method: "GET",
-      uri: "http://pi.hole/admin/api.php?summary",
+      uri: `${config.pihole_uri}/admin/api.php?summary`,
       json: true
     };
 
@@ -35,7 +35,7 @@ export class PiholeHandler {
   private enable(): void {
     let options: {} = {
       method: "GET",
-      uri: `http://pi.hole/admin/api.php?enable&auth=${this.token}`,
+      uri: `${config.pihole_uri}/admin/api.php?enable&auth=${this.token}`,
       json: true
     };
     request(options);
@@ -44,7 +44,7 @@ export class PiholeHandler {
   private disable(): void {
     let options: {} = {
       method: "GET",
-      uri: `http://pi.hole/admin/api.php?disable&auth=${this.token}`,
+      uri: `${config.pihole_uri}/admin/api.php?disable&auth=${this.token}`,
       json: true
     };
     request(options);
