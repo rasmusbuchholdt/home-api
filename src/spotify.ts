@@ -1,5 +1,6 @@
 import { Buffer } from 'buffer';
 
+import { SpotifyDevice } from './models/spotify/device';
 import { SpotifyPlayback } from './models/spotify/playback';
 import { SpotifyTokenReponse } from './models/spotify/token-response';
 import { SpotifyUser } from './models/spotify/user';
@@ -186,6 +187,44 @@ export class SpotifyHandler {
           resolve(Object.assign({}, result as SpotifyPlayback));
         });
     });
+  }
+
+  getDevices(): Promise<SpotifyDevice[]> {
+    let options: {} = {
+      method: "GET",
+      uri: "https://api.spotify.com/v1/me/player/devices",
+      json: true,
+      headers: {
+        Authorization: ` Bearer ${this.accessToken}`
+      }
+    };
+
+    return new Promise((resolve: any, reject: any) => {
+      request(options)
+        .then((result: any) => {
+          resolve(result.devices.map((v: SpotifyDevice) => Object.assign({}, v)));
+        });
+    });
+  }
+
+  transferPlayback(device: string): void {
+    if (device === 'sonos') {
+      this.sonosHandler.resume();
+    } else {
+      let options: {} = {
+        method: "PUT",
+        uri: `https://api.spotify.com/v1/me/player`,
+        headers: {
+          Authorization: ` Bearer ${this.accessToken}`
+        },
+        body: JSON.stringify({
+          device_ids: [
+            device
+          ]
+        })
+      };
+      request(options);
+    }
   }
 
   getUser(): Promise<SpotifyUser> {

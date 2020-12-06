@@ -86,6 +86,18 @@ app.get("/api/spotify/playback", (req: any, resp: any) => {
   });
 });
 
+app.get("/api/spotify/playback/:id/set", (req: any, resp: any) => {
+  if (!req.params.id) return resp.status(HTTP.BAD_REQUEST).send();
+  spotifyHandler.transferPlayback(req.params.id);
+  return resp.status(HTTP.OK).send();
+});
+
+app.get("/api/spotify/devices", (req: any, resp: any) => {
+  spotifyHandler.getDevices().then(devices => {
+    return resp.status(HTTP.OK).json(devices);
+  });
+});
+
 app.get("/api/spotify/user", (req: any, resp: any) => {
   spotifyHandler.getUser().then(user => {
     return resp.status(HTTP.OK).json(user);
