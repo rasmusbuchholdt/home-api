@@ -122,6 +122,11 @@ app.get("/auth/spotify", (req: any, resp: any) => {
   resp.redirect(spotifyHandler.getAuthURL(spotifyState));
 });
 
+app.get("/auth/spotify/logout", (req: any, resp: any) => {
+  spotifyHandler = new SpotifyHandler();
+  return resp.redirect(config.spotify_auth_success_uri || "/auth/spotify/success");
+});
+
 app.get("/auth/spotify/callback", (req: any, resp: any) => {
   if (req.query.state != spotifyState) return resp.status(HTTP.BAD_REQUEST).send();
   spotifyHandler.getToken(req.query.code).then(tokenResponse => {
