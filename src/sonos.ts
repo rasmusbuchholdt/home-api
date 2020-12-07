@@ -23,6 +23,14 @@ export class SonosHandler {
     });
   }
 
+  getSonosState(): Promise<boolean> {
+    return new Promise((resolve: any, reject: any) => {
+      this.sonos.getCurrentState().then((result: string) => {
+        resolve(result === 'playing' ? true : false);
+      });
+    });
+  }
+
   previous(): void {
     this.sonos.previous();
   }
