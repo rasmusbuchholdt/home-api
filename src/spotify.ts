@@ -202,13 +202,24 @@ export class SpotifyHandler {
     return new Promise((resolve: any, reject: any) => {
       request(options)
         .then((result: any) => {
-          resolve(result.devices.map((v: SpotifyDevice) => Object.assign({}, v)));
+          let devices: SpotifyDevice[] = result.devices.map((v: SpotifyDevice) => Object.assign({}, v));
+          // TODO: Use actual Sonos information
+          devices.push({
+            id: 'sonos',
+            is_active: false,
+            is_private_session: false,
+            is_restricted: false,
+            name: 'Sonos',
+            type: 'Speaker',
+            volume_percent: 50
+          });
+          resolve(devices);
         });
     });
   }
 
-  transferPlayback(device: string): void {
-    if (device === 'sonos') {
+  transferPlayback(id: string): void {
+    if (id === 'sonos') {
       this.sonosHandler.resume();
     } else {
       let options: {} = {
@@ -219,7 +230,7 @@ export class SpotifyHandler {
         },
         body: JSON.stringify({
           device_ids: [
-            device
+            id
           ]
         })
       };

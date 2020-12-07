@@ -20,7 +20,7 @@ export class SonosHandler {
     let discovery = new DeviceDiscovery();
     discovery.discover().then((device: SonosDevice) => {
       this.sonos = new Sonos(device.host);
-    })
+    });
   }
 
   previous(): void {
