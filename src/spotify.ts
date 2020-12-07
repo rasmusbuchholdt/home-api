@@ -213,6 +213,7 @@ export class SpotifyHandler {
             type: 'Speaker',
             volume_percent: 50
           });
+          devices.sort((a, b) => (a.name > b.name) ? 1 : -1);
           resolve(devices);
         });
     });
