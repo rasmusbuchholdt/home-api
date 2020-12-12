@@ -83,7 +83,6 @@ app.post("/api/light/set", (req: any, resp: any) => {
     !req.body.saturation ||
     !req.body.brightness
   ) return resp.status(HTTP.BAD_REQUEST).send();
-  req.body.rgb = JSON.parse(req.body.rgb);
   hueHandler.setCustomLightState({
     id: req.body.id,
     enabled: req.body.enabled,
