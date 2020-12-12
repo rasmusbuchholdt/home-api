@@ -69,8 +69,6 @@ export class HueHandler {
   }
 
   setCustomLightState(lightConfig: HueLightConfig): void {    
-    console.log(lightConfig);
-    
     if (!lightConfig.enabled) return this.disableLight(lightConfig.id);
     let normalizedBrightness = Math.round(normalize(lightConfig.brightness, 1, 254));
     this.api.lights.setLightState(lightConfig.id, new LightState()
