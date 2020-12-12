@@ -70,12 +70,11 @@ export class HueHandler {
 
   setCustomLightState(lightConfig: HueLightConfig): void {    
     if (!lightConfig.enabled) return this.disableLight(lightConfig.id);
-    let normalizedBrightness = Math.round(normalize(lightConfig.brightness, 1, 254));
     this.api.lights.setLightState(lightConfig.id, new LightState()
       .on()
       .rgb([lightConfig.rgb.R, lightConfig.rgb.G, lightConfig.rgb.B])
-      .sat(lightConfig.saturation)
-      .brightness(normalizedBrightness)
+      .saturation(clamp(lightConfig.saturation, 1, 100))
+      .brightness(clamp(lightConfig.brightness, 1, 100))
     );
   }
 
