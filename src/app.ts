@@ -1,4 +1,5 @@
 import { HueHandler } from './hue';
+import { HueLightConfig } from './models/hue/light-config';
 import { PiholeHandler } from './pihole';
 import { SpotifyHandler } from './spotify';
 import { randomString } from './utils';
@@ -71,6 +72,25 @@ app.get("/api/light/:id", (req: any, resp: any) => {
 app.get("/api/light/:id/toggle", (req: any, resp: any) => {
   if (!req.params.id) return resp.status(HTTP.BAD_REQUEST).send();
   hueHandler.toggleLight(+req.params.id);
+  return resp.status(HTTP.OK).send();
+});
+
+app.post("/api/light/set", (req: any, resp: any) => {
+  if (
+    !req.body.id ||
+    !req.body.enabled ||
+    !req.body.rgb ||
+    !req.body.saturation ||
+    !req.body.brightness
+  ) return resp.status(HTTP.BAD_REQUEST).send();
+  req.body.rgb = JSON.parse(req.body.rgb);
+  hueHandler.setCustomLightState({
+    id: req.body.id,
+    enabled: req.body.enabled,
+    rgb: { R: req.body.rgb.R, G: req.body.rgb.G, B: req.body.rgb.B },
+    saturation: req.body.saturation,
+    brightness: req.body.brightness
+  } as HueLightConfig);
   return resp.status(HTTP.OK).send();
 });
 

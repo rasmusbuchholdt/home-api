@@ -1,7 +1,13 @@
+export interface RGB {
+  R: number;
+  G: number;
+  B: number;
+}
+
 export interface HueLightConfig {
   id: number;
   enabled: boolean;
-  hue: number;
+  rgb: RGB;
   saturation: number;
   brightness: number;
 }

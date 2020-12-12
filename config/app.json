@@ -13,7 +13,11 @@
       {
         "id": 2,
         "enabled": true,
-        "hue": 65535,
+        "rbg": {
+          "R": 255,
+          "B": 0,
+          "G": 0
+        },
         "saturation": 126,
         "brightness": 30
       }
@@ -21,7 +25,11 @@
   },
   "light_default_values": {
     "enabled": true,
-    "hue": 0,
+    "rbg": {
+      "R": 255,
+      "B": 255,
+      "G": 255
+    },
     "saturation": 0,
     "brightness": 80
   }
