@@ -86,7 +86,7 @@ app.post("/api/light/set", (req: any, resp: any) => {
   hueHandler.setCustomLightState({
     id: req.body.id,
     enabled: req.body.enabled,
-    rgb: { R: req.body.rgb.R, G: req.body.rgb.G, B: req.body.rgb.B },
+    rgb: { R: req.body.rgb.R, G: req.body.rgb.G, B: req.body.rgb.B, change: req.body.rgb.change },
     saturation: req.body.saturation,
     brightness: req.body.brightness
   } as HueLightConfig);

@@ -68,14 +68,17 @@ export class HueHandler {
     this.api.lights.setLightState(lightId, new LightState().off());
   }
 
-  setCustomLightState(lightConfig: HueLightConfig): void {    
+  setCustomLightState(lightConfig: HueLightConfig): void {
     if (!lightConfig.enabled) return this.disableLight(lightConfig.id);
-    this.api.lights.setLightState(lightConfig.id, new LightState()
+    let newLight = new LightState()
       .on()
-      .rgb([lightConfig.rgb.R, lightConfig.rgb.G, lightConfig.rgb.B])
-      .saturation(clamp(lightConfig.saturation, 1, 100))
-      .brightness(clamp(lightConfig.brightness, 1, 100))
-    );
+      .brightness(clamp(lightConfig.brightness, 1, 100));
+    if (lightConfig.rgb.change) {
+      newLight
+        .rgb([lightConfig.rgb.R, lightConfig.rgb.G, lightConfig.rgb.B])
+        .saturation(clamp(lightConfig.saturation, 1, 100));
+    }
+    this.api.lights.setLightState(lightConfig.id, newLight);
   }
 
   adjustLightBrightness(lightId: number, amount: number): void {
