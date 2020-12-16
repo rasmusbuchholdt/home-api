@@ -203,13 +203,12 @@ export class SpotifyHandler {
       request(options)
         .then((result: any) => {
           let devices: SpotifyDevice[] = result.devices.map((v: SpotifyDevice) => Object.assign({}, v));
-          this.sonosHandler.getSonosState().then(isPlaying => {
-            // We assume that the Sonos is always online
+          this.sonosHandler.getSonosState().then(sonosSate => {
             devices.push({
               id: 'sonos',
-              is_active: isPlaying,
+              is_active: sonosSate.isActive,
               is_private_session: false,
-              is_restricted: false,
+              is_restricted: sonosSate.isRestricted,
               name: 'Sonos',
               type: 'Speaker',
               volume_percent: 50
