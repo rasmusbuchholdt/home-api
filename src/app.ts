@@ -43,9 +43,9 @@ app.get("/api/moviemode/", (req: any, resp: any) => {
 });
 
 app.get("/api/moviemode/toggle", (req: any, resp: any) => {
-  if (!movieMode) spotifyHandler.pause();
-  hueHandler.toggleMovieMode(movieMode);
   movieMode = !movieMode;
+  if (movieMode) spotifyHandler.pause();
+  hueHandler.toggleMovieMode(movieMode);
   return resp.status(HTTP.OK).send();
 });
 
