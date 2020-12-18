@@ -92,18 +92,10 @@ export class HueHandler {
     });
   }
 
-  toggleMovieMode(state: boolean): void {
-    let movieLightIds: number[] = config.movie_mode.lights.map((e: any) => e.id);
-    if (state) {
-      let defaultConfig: HueLightConfig = config.light_default_values;
-      movieLightIds.forEach(lightId => {
-        defaultConfig.id = lightId
-        this.setCustomLightState(defaultConfig);
-      });
-    } else {
-      config.movie_mode.lights.forEach((lightConfig: HueLightConfig) => {
-        this.setCustomLightState(lightConfig);
-      });
-    }
+  toggleMovieMode(enabled: boolean): void {
+    let movieLightIds: number[] = config.movie_mode_lights.map((e: number) => e);
+    movieLightIds.forEach(lightId => {
+      enabled ? this.disableLight(lightId) : this.enableLight(lightId);
+    });
   }
 }
