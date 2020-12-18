@@ -37,6 +37,9 @@ app.set("port", (config.app_port));
 app.get("/api/", (req: any, resp: any) => {
   return resp.status(HTTP.OK).json({ status: 'online' });
 });
+
+app.get("/api/moviemode/", (req: any, resp: any) => {
+  return resp.status(HTTP.OK).json(movieMode);
 });
 
 app.get("/api/moviemode/toggle", (req: any, resp: any) => {
