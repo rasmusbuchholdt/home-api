@@ -23,6 +23,7 @@ export class SonosHandler {
       this.sonos = new Sonos(device.host);
     }).catch((error: any) => {
       this.sonos = undefined;
+      setTimeout(() => this.getSonos(), 5 * 60 * 1000);
     });
   }
 
