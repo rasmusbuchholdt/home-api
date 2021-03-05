@@ -1,7 +1,7 @@
+import { Data, Light } from './models/hue/light';
 import { HueLightConfig } from './models/hue/light-config';
 import { clamp, normalize } from './utils';
 
-let request = require('request-promise');
 let v3 = require('node-hue-api').v3;
 let discovery = v3.discovery;
 let LightState = v3.lightStates.LightState;
@@ -38,10 +38,10 @@ export class HueHandler {
     });
   }
 
-  getLights(): Promise<any[]> {
+  getLights(): Promise<Data[]> {
     return new Promise((resolve: any, reject: any) => {
-      this.api.lights.getAll().then((lights: any) => {
-        resolve(lights.map((e: any) => e._data));
+      this.api.lights.getAll().then((lights: Light[]) => {
+        resolve(lights.map((e: Light) => Object.assign({}, e._data)) as Data[]);
       });
     });
   }
