@@ -27,7 +27,7 @@
     "querystring": "^0.2.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "sonos": "^1.14.0",
+    "sonos": "^1.14.1",
     "spotify-web-api-node": "^5.0.0",
     "typescript": "^4.0.2"
   },
