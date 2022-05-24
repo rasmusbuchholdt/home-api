@@ -24,7 +24,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "http-status-codes": "^2.1.2",
-    "node-hue-api": "^4.0.10",
+    "node-hue-api": "^4.0.11",
     "querystring": "^0.2.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
