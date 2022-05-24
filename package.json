@@ -5,7 +5,8 @@
   "main": "dist/app.js",
   "scripts": {
     "postinstall": "tsc",
-    "start": "tsc && node dist/app.js"
+    "start": "tsc && node dist/app.js",
+    "setup:hue": "tsc && node dist/scripts/set-up-hue.js"
   },
   "repository": {
     "type": "git",
