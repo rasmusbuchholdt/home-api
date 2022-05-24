@@ -16,10 +16,8 @@ export class HueHandler {
 
   constructor() {
     this.username = config.hue_username;
-    this.getBridgeIp().then(ip => {
-      this.bridgeIp = ip;
-      this.getApiConnection();
-    });
+    this.bridgeIp = config.hue_ip;
+    this.getApiConnection();
   };
 
   private getApiConnection(): void {

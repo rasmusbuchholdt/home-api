@@ -8,6 +8,7 @@
   "spotify_call_back_uri": "",
   "spotify_auth_success_uri": "",
   "spotify_refresh_token": "",
+  "hue_ip": "",
   "movie_mode_lights": [
     1,
     2
