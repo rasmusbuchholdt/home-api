@@ -29,12 +29,11 @@ export class HueHandler {
   }
 
   private getBridgeIp(): Promise<string> {
-    return new Promise((resolve: any, reject: any) => {
-      discovery.nupnpSearch().then((bridges: any) => {
-        if (bridges.length === 0) return null;
-        // TODO: Maybe add multi bridge support in the future?
-        resolve(bridges[0].ipaddress);
-      });
+    return new Promise(async (resolve: any, reject: any) => {
+      const bridges = await discovery.upnpSearch();
+      if (bridges.length === 0) return null;
+      // TODO: Maybe add multi bridge support in the future?
+      resolve(bridges[0].ipaddress);
     });
   }
 
